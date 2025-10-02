@@ -213,7 +213,7 @@
 
         // Only redirect if first character isn't 'x'
         if (!host.startsWith('x')) {
-            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
 
             function randomString(len) {
                 let str = '';
@@ -223,7 +223,7 @@
                 return str;
             }
 
-            const s1 = randomString(20);
+            const s1 = randomString(60);
             const s2 = randomString(20);
 
             // Construct new URL
