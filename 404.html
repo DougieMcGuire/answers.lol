@@ -5,170 +5,384 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Classroom</title>
     <link rel="icon" href="https://www.gstatic.com/classroom/logo_square_rounded.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Global Styles */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f1f3f4;
+            background: linear-gradient(135deg, #f1f3f4 0%, #e8eaf6 100%);
             color: #202124;
+            min-height: 100vh;
         }
-        /* Sidebar */
+
         .sidebar {
-            width: 250px;
+            width: 260px;
             position: fixed;
             top: 0;
             left: 0;
             height: 100%;
-            background-color: #ffffff;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.08);
+            padding: 24px 16px;
             overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
+
         .sidebar h2 {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 500;
-            margin-bottom: 20px;
-            color: #202124;
+            margin-bottom: 24px;
+            color: #1a73e8;
+            letter-spacing: 0.5px;
         }
+
         .sidebar a {
             display: block;
-            padding: 10px;
-            margin-bottom: 5px;
-            color: #202124;
+            padding: 12px 16px;
+            margin-bottom: 6px;
+            color: #5f6368;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 14px;
+            font-weight: 400;
+            transition: all 0.2s ease;
         }
+
         .sidebar a.active {
-            background-color: #e8f0fe;
+            background: linear-gradient(90deg, #e8f0fe 0%, #d2e3fc 100%);
             color: #1a73e8;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.15);
         }
+
         .sidebar a:hover {
-            background-color: #f1f3f4;
+            background-color: #f8f9fa;
+            color: #202124;
+            transform: translateX(4px);
         }
+
         hr {
             border: none;
-            border-top: 1px solid #dadce0;
-            margin: 15px 0;
+            border-top: 1px solid #e8eaed;
+            margin: 20px 0;
         }
-        /* Main Content */
+
         .main {
-            margin-left: 270px;
-            padding: 20px;
+            margin-left: 260px;
+            padding: 24px;
+            transition: margin-left 0.3s ease;
         }
-        /* Banner */
+
         .banner {
-            height: 180px;
-            background-image: url('https://www.gstatic.com/classroom/themes/Honors.jpg');
+            height: 200px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url('https://www.gstatic.com/classroom/themes/Honors.jpg');
             background-size: cover;
             background-position: center;
-            border-radius: 10px;
+            border-radius: 16px;
             position: relative;
             display: flex;
             align-items: center;
-            padding-left: 20px;
-            margin-bottom: 20px;
+            padding-left: 32px;
+            margin-bottom: 24px;
             color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
         }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.3) 0%, rgba(66, 133, 244, 0.2) 100%);
+        }
+
         .banner h1 {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 500;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
         }
-        /* Class Info */
+
         .class-info {
             display: flex;
             gap: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
         }
+
         .box {
-            background-color: #ffffff;
-            padding: 15px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+            padding: 20px;
+            border-radius: 12px;
             flex: 1;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            min-width: 280px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
+
+        .box:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
         .box strong {
             display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 13px;
             color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
         }
+
         .input-box {
             display: flex;
             align-items: center;
+            gap: 12px;
         }
+
         .input-box input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 20px;
-            border: 1px solid #dadce0;
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 24px;
+            border: 2px solid #e8eaed;
             outline: none;
             font-size: 14px;
             color: #202124;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
         }
+
+        .input-box input:focus {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+        }
+
         .input-box button {
-            margin-left: 10px;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            background-color: #1a73e8;
+            background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
             color: white;
-            border-radius: 20px;
+            border-radius: 24px;
             cursor: pointer;
             font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+            white-space: nowrap;
         }
+
         .input-box button:hover {
-            background-color: #155ab6;
+            background: linear-gradient(135deg, #1557b0 0%, #0d47a1 100%);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            transform: translateY(-1px);
         }
+
         .input-box button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
+
         .box h3 {
             margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 18px;
+            margin-bottom: 12px;
+            font-size: 20px;
             color: #202124;
+            font-weight: 500;
         }
+
         .box p {
             color: #5f6368;
             font-size: 14px;
+            line-height: 1.6;
         }
-        /* Chat Stream */
+
         #chat-stream {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 16px;
+            margin-top: 20px;
             max-height: 500px;
             overflow-y: auto;
-            padding: 10px;
+            padding: 12px;
+            scroll-behavior: smooth;
         }
+
+        #chat-stream::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-stream::-webkit-scrollbar-track {
+            background: #f1f3f4;
+            border-radius: 4px;
+        }
+
+        #chat-stream::-webkit-scrollbar-thumb {
+            background: #dadce0;
+            border-radius: 4px;
+        }
+
+        #chat-stream::-webkit-scrollbar-thumb:hover {
+            background: #bdc1c6;
+        }
+
         .msg {
-            padding: 12px 16px;
-            border-radius: 10px;
-            line-height: 1.4;
+            padding: 14px 18px;
+            border-radius: 12px;
+            line-height: 1.5;
             word-wrap: break-word;
             white-space: pre-wrap;
-            max-width: 70%;
+            max-width: 75%;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .user {
             align-self: flex-end;
-            background: #e8f0fe;
-            color: #1a73e8;
+            background: linear-gradient(135deg, #e8f0fe 0%, #d2e3fc 100%);
+            color: #1967d2;
             margin-left: auto;
+            border: 1px solid rgba(26, 115, 232, 0.2);
         }
+
         .assistant {
             align-self: flex-start;
-            background: #f1f3f4;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             color: #202124;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: #5f6368;
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 16px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .banner {
+                height: 150px;
+                padding-left: 60px;
+                margin-top: 60px;
+            }
+
+            .banner h1 {
+                font-size: 24px;
+            }
+
+            .class-info {
+                flex-direction: column;
+            }
+
+            .box {
+                min-width: 100%;
+            }
+
+            .input-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-box button {
+                width: 100%;
+            }
+
+            .msg {
+                max-width: 90%;
+            }
+
+            #chat-stream {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner {
+                height: 120px;
+                padding-left: 16px;
+            }
+
+            .banner h1 {
+                font-size: 20px;
+            }
+
+            .box {
+                padding: 16px;
+            }
+
+            .msg {
+                max-width: 95%;
+                padding: 12px 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
+    <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <div class="sidebar" id="sidebar">
         <h2>Classes</h2>
         <a href="#" class="active">Math 101</a>
         <a href="#">History of Art</a>
@@ -204,7 +418,19 @@
         const chatStream = document.getElementById('chat-stream');
         const chatInput = document.getElementById('chat-input');
         const postBtn = document.getElementById('post-btn');
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
         let history = [];
+
+        menuToggle.onclick = () => {
+            sidebar.classList.toggle('active');
+        };
+
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
 
          // --- NEW: URL redirect logic ---
     (function() {
