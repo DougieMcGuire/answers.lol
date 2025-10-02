@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Classroom</title>
+    <link rel="icon" href="https://www.gstatic.com/classroom/logo_square_rounded.svg" type="image/svg+xml">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f3f4;
+            color: #202124;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        .sidebar h2 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #202124;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            margin-bottom: 5px;
+            color: #202124;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .sidebar a.active {
+            background-color: #e8f0fe;
+            color: #1a73e8;
+        }
+        .sidebar a:hover {
+            background-color: #f1f3f4;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #dadce0;
+            margin: 15px 0;
+        }
+        /* Main Content */
+        .main {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        /* Banner */
+        .banner {
+            height: 180px;
+            background-image: url('https://www.gstatic.com/classroom/themes/Honors.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .banner h1 {
+            font-size: 32px;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+        /* Class Info */
+        .class-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .box {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .box strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #5f6368;
+        }
+        .input-box {
+            display: flex;
+            align-items: center;
+        }
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #dadce0;
+            outline: none;
+            font-size: 14px;
+            color: #202124;
+        }
+        .input-box button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #1a73e8;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .input-box button:hover {
+            background-color: #155ab6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+        }
+        .input-box button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .box h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #202124;
+        }
+        .box p {
+            color: #5f6368;
+            font-size: 14px;
+        }
+        /* Chat Stream */
+        #chat-stream {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .msg {
+            padding: 12px 16px;
+            border-radius: 10px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            max-width: 70%;
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user {
+            align-self: flex-end;
+            background: #e8f0fe;
+            color: #1a73e8;
+            margin-left: auto;
+        }
+        .assistant {
+            align-self: flex-start;
+            background: #f1f3f4;
+            color: #202124;
+        }
+
+```
+    /* Screen Capture Tool */
+    .screen-tool {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e8eaed;
+    }
+    .screen-tool h3 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 20px;
+        color: #202124;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .screen-subtitle {
+        color: #5f6368;
+        font-size: 13px;
+        margin-bottom: 20px;
+        font-weight: 400;
+    }
+    .screen-status {
+        padding: 12px 18px;
+        border-radius: 24px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+    }
+    .screen-status::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .screen-status.inactive {
+        background: #f1f3f4;
+        color: #5f6368;
+    }
+    .screen-status.inactive::before {
+        background: #9aa0a6;
+    }
+    .screen-status.active {
+        background: #e6f4ea;
+        color: #137333;
+    }
+    .screen-status.active::before {
+        background: #34a853;
+        animation: pulse 2s infinite;
+    }
+    .screen-status.error {
+        background: #fce8e6;
+        color: #c5221f;
+    }
+    .screen-status.error::before {
+        background: #ea4335;
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    .screen-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .screen-controls textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #dadce0;
+        border-radius: 12px;
+        font-size: 14px;
+        font-family: inherit;
+        resize: vertical;
+        min-height: 70px;
+        transition: all 0.2s;
+        background: #ffffff;
+    }
+    .screen-controls textarea:focus {
+        outline: none;
+        border-color: #1a73e8;
+        box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+    }
+    .screen-controls textarea::placeholder {
+        color: #9aa0a6;
+    }
+    .screen-buttons {
+        display: flex;
+        gap: 12px;
+    }
+    .screen-buttons button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 24px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        flex: 1;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    .screen-buttons button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none !important;
+    }
+    .btn-start {
+        background: #f1f3f4;
+        color: #202124;
+        border: 2px solid transparent;
+    }
+    .btn-start:hover:not(:disabled) {
+        background: #e8eaed;
+        border-color: #dadce0;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .btn-analyze {
+        background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+        color: white;
+        border: 2px solid transparent;
+    }
+    .btn-analyze:hover:not(:disabled) {
+        background: linear-gradient(135deg, #1557b0 0%, #0d47a1 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+    }
+    .screen-loading {
+        display: none;
+        text-align: center;
+        padding: 24px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        margin-top: 16px;
+    }
+    .screen-loading.visible {
+        display: block;
+        animation: fadeIn 0.3s ease-in;
+    }
+    .screen-spinner {
+        border: 4px solid #e8eaed;
+        border-top: 4px solid #1a73e8;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 12px;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .screen-loading p {
+        color: #5f6368;
+        font-size: 14px;
+        margin: 0;
+    }
+    .screen-response {
+        background: linear-gradient(135deg, #e8f0fe 0%, #f1f3f4 100%);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+        display: none;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #d2e3fc;
+    }
+    .screen-response.visible {
+        display: block;
+        animation: slideIn 0.4s ease-out;
+    }
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .screen-response-header {
+        font-weight: 600;
+        color: #1a73e8;
+        margin-bottom: 12px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .screen-response-header::before {
+        content: '💬';
+        font-size: 18px;
+    }
+    .screen-response-content {
+        color: #202124;
+        line-height: 1.6;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 14px;
+        background: #ffffff;
+        padding: 16px;
+        border-radius: 8px;
+    }
+    .screen-preview {
+        margin-top: 20px;
+        display: none;
+    }
+    .screen-preview.visible {
+        display: block;
+        animation: slideIn 0.4s ease-out;
+    }
+    .screen-preview-header {
+        font-weight: 600;
+        color: #202124;
+        margin-bottom: 12px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .screen-preview-header::before {
+        content: '📸';
+        font-size: 18px;
+    }
+    .screen-preview img {
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        border: 2px solid #e8eaed;
+    }
+
+    /* Responsive - Small screens (Chromebook float mode) */
+    @media (max-width: 768px) {
+        .sidebar {
+            display: none;
+        }
+        .main {
+            margin-left: 0;
+            padding: 0;
+        }
+        .banner {
+            display: none;
+        }
+        .class-info {
+            display: none;
+        }
+        .box:not(.screen-tool) {
+            display: none;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .screen-tool {
+            margin: 0;
+            border-radius: 0;
+            min-height: 100vh;
+            box-shadow: none;
+            border: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .screen-tool h3 {
+            font-size: 24px;
+        }
+        .screen-buttons {
+            flex-direction: column;
+        }
+        .screen-buttons button {
+            width: 100%;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Classes</h2>
+        <a href="#" class="active">Math 101</a>
+        <a href="#">History of Art</a>
+        <a href="#">Computer Science</a>
+        <a href="#">English Literature</a>
+        <a href="#">Physics Lab</a>
+        <hr>
+        <a href="#">Archived classes</a>
+        <a href="#">Settings</a>
+    </div>
+    <div class="main">
+        <div class="banner">
+            <h1>Google Classroom</h1>
+        </div>
+        <div class="class-info">
+            <div class="box">
+                <strong>Class code:</strong>
+                <p>made with ❤️ - dougie</p>
+            </div>
+            <div class="box input-box">
+                <input type="text" id="chat-input" placeholder="Ask the AI assistant anything...">
+                <button id="post-btn">Post</button>
+            </div>
+        </div>
+
+```
+    <!-- Screen Capture Tool -->
+    <div class="box screen-tool">
+        <h3>🖥️ Vision Assistant</h3>
+        <p class="screen-subtitle">Capture and analyze your screen with AI-powered vision technology</p>
+        <div id="screen-status" class="screen-status inactive">
+            Ready to start
+        </div>
+        <div class="screen-controls">
+            <textarea 
+                id="screen-instructions" 
+                placeholder="What would you like to know about your screen? (e.g., 'Explain this code', 'What's in this image?', 'Help me debug this')">
+            </textarea>
+            <div class="screen-buttons">
+                <button id="screen-start-btn" class="btn-start">
+                    <span>▶</span> Start Sharing
+                </button>
+                <button id="screen-run-btn" class="btn-analyze" disabled>
+                    <span>✨</span> Analyze Screen
+                </button>
+            </div>
+        </div>
+        <div id="screen-loading" class="screen-loading">
+            <div class="screen-spinner"></div>
+            <p>AI is analyzing your screen...</p>
+        </div>
+        <div id="screen-response-container" class="screen-response">
+            <div class="screen-response-header">AI Analysis</div>
+            <div id="screen-response-content" class="screen-response-content"></div>
+        </div>
+        <div id="screen-preview" class="screen-preview">
+            <div class="screen-preview-header">Screenshot</div>
+            <img id="screen-preview-img" alt="Screen capture">
+        </div>
+    </div>
+
+    <div class="box">
+        <h3>Class Stream</h3>
+        <p>These will not be detectable as AI generated.</p>
+        <div id="chat-stream"></div>
+    </div>
+</div>
+
+<script>
+    const chatStream = document.getElementById('chat-stream');
+    const chatInput = document.getElementById('chat-input');
+    const postBtn = document.getElementById('post-btn');
+
+    // --- URL redirect logic ---
+    (function() {
+        const path = window.location.pathname.slice(1);
+        const host = window.location.hostname;
+
+        if (!host.startsWith('x')) {
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
+
+            function randomString(len) {
+                let str = '';
+                for (let i = 0; i < len; i++) {
+                    str += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return str;
+            }
+
+            const s1 = randomString(60);
+            const s2 = randomString(20);
+
+            const newURL = `https://x${s1}.answers.lol/${s2}`;
+            window.location.replace(newURL);
+        }
+    })();
+
+    function getSystemPrompt(level = 5) {
+        return "You are a helpful assistant. Write clearly using simple language that an 8th grader would understand. Avoid complex vocabulary and keep sentences straightforward.";
+    }
+
+    function balancedHumanize(text, level) {
+        let result = text;
+
+        result = result.replace(/—/g, "");
+        
+        const subs = {
+            "can": "could",
+            "could": "can", 
+            "may": "might",
+            "just": "simply",
+            "really": "truly",
+            "actually": "in fact",
+            "that": "which",
+            "very": "extremely",
+            "demonstrates": "shows",
+            "utilizes": "uses",
+            "indicates": "suggests",
+            "illustrates": "shows",
+            "nevertheless": "but",
+            "furthermore": "also",
+            "moreover": "also",
+            "therefore": "so",
+            "thus": "so",
+            "hence": "so"
+        };
+
+        const conjunctions = ["And", "But", "Or", "So"];
+
+        result = result.split(" ").map(word => {
+            let clean = word.replace(/[^a-zA-Z]/g, "");
+            let lowerClean = clean.toLowerCase();
+            
+            if (subs[lowerClean]) {
+                word = word.replace(clean, subs[lowerClean]);
+            }
+
+            if (level >= 5 && Math.random() < 0.07) {
+                word = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }
+
+            if (level >= 8 && Math.random() < 0.03 && word.length > 3) {
+                let i = Math.floor(Math.random() * (word.length - 1));
+                word = word.slice(0, i) + word[i + 1] + word[i] + word.slice(i + 2);
+            }
+
+            if (level >= 7 && Math.random() < 0.02 && word.length > 2) {
+                word += word[word.length - 1];
+            }
+
+            return word;
+        }).join(" ");
+
+        if (level >= 4) {
+            result = result.replace(/, /g, () => Math.random() < 0.5 ? ", " : " ");
+        }
+
+        let sentences = result.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 0);
+
+        sentences = sentences.map(s => {
+            if (level >= 6 && s.length > 120 && Math.random() < 0.5) {
+                let p = Math.floor(s.length / 2);
+                s = s.slice(0, p) + ". " + s.slice(p);
+            }
+
+            if (level >= 5 && Math.random() < 0.05) s = "Well, " + s;
+            if (level >= 6 && Math.random() < 0.03) s = s + " you know";
+
+            if (level >= 4 && Math.random() < 0.05) {
+                s = conjunctions[Math.floor(Math.random() * conjunctions.length)] + " " + s;
+            }
+
+            return s;
+        });
+
+        result = sentences.join(". ") + ".";
+
+        result = result.replace(/\b(In conclusion|In summary|To summarize|It is important to note that|Notably|Crucially|Significantly),?\s+/gi, '');
+
+        result = result.replace(/\s+/g, ' ');
+        result = result.replace(/\s+\./g, '.');
+        result = result.replace(/\.+/g, '.');
+
+        return result.trim();
+    }
+
+    function addMessage(role, content) {
+        const div = document.createElement('div');
+        div.className = `msg ${role}`;
+        div.textContent = content;
+        chatStream.appendChild(div);
+        chatStream.scrollTop = chatStream.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const msg = chatInput.value.trim();
+        if (!msg) return;
+
+        chatInput.value = '';
+        postBtn.disabled = true;
+        addMessage('user', msg);
+
+        try {
+            const systemPrompt = getSystemPrompt(5);
+            const fullPrompt = `${systemPrompt}\n\nHuman: ${msg}\n\nAssistant:`;
+            const encodedPrompt = encodeURIComponent(fullPrompt);
+            const seed = Math.floor(Math.random() * 1000000);
+            
+            const url = `https://text.pollinations.ai/${encodedPrompt}?seed=${seed}&model=openai`;
+            
+            const res = await fetch(url);
+            const data = await res.text();
+            
+            try {
+                const parsed = JSON.parse(data);
+                if (parsed.refusal !== undefined && parsed.refusal !== null) {
+                    addMessage('assistant', 'ok so basically you put sum in thats bad');
+                    postBtn.disabled = false;
+                    chatInput.focus();
+                    return;
+                }
+            } catch (e) {}
+            
+            const humanized = balancedHumanize(data, 5);
+            addMessage('assistant', humanized);
+
+        } catch (err) {
+            addMessage('assistant', 'sorry that didnt work');
+        }
+
+        postBtn.disabled = false;
+        chatInput.focus();
+    }
+
+    postBtn.onclick = sendMessage;
+    chatInput.onkeypress = (e) => {
+        if (e.key === 'Enter') sendMessage();
+    };
+
+    // === SCREEN CAPTURE CODE ===
+    let stream = null;
+    let video = null;
+    const API_KEY = 'G7mssh3Pay81qZfJ';
+
+    const screenEls = {
+        status: document.getElementById('screen-status'),
+        startBtn: document.getElementById('screen-start-btn'),
+        runBtn: document.getElementById('screen-run-btn'),
+        instructions: document.getElementById('screen-instructions'),
+        loading: document.getElementById('screen-loading'),
+        responseContainer: document.getElementById('screen-response-container'),
+        responseContent: document.getElementById('screen-response-content'),
+        preview: document.getElementById('screen-preview'),
+        previewImg: document.getElementById('screen-preview-img')
+    };
+
+    screenEls.startBtn.addEventListener('click', () => {
+        stream ? stopShare() : startShare();
+    });
+
+    screenEls.runBtn.addEventListener('click', capture);
+
+    async function startShare() {
+        try {
+            stream = await navigator.mediaDevices.getDisplayMedia({
+                video: { mediaSource: 'screen' }
+            });
+
+            video = document.createElement('video');
+            video.srcObject = stream;
+            video.autoplay = true;
+
+            screenEls.status.textContent = 'Screen sharing active';
+            screenEls.status.className = 'screen-status active';
+            screenEls.startBtn.innerHTML = '<span>■</span> Stop Sharing';
+            screenEls.runBtn.disabled = false;
+
+            stream.getVideoTracks()[0].addEventListener('ended', stopShare);
+        } catch (err) {
+            screenEls.status.textContent = 'Error: ' + err.message;
+            screenEls.status.className = 'screen-status error';
+        }
+    }
+
+    function stopShare() {
+        if (stream) {
+            stream.getTracks().forEach(t => t.stop());
+            stream = null;
+            video = null;
+        }
+
+        screenEls.status.textContent = 'Ready to start';
+        screenEls.status.className = 'screen-status inactive';
+        screenEls.startBtn.innerHTML = '<span>▶</span> Start Sharing';
+        screenEls.runBtn.disabled = true;
+    }
+
+    async function capture() {
+        if (!video) return;
+
+        screenEls.loading.classList.add('visible');
+        screenEls.responseContainer.classList.remove('visible');
+        screenEls.preview.classList.remove('visible');
+        screenEls.runBtn.disabled = true;
+
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            canvas.getContext('2d').drawImage(video, 0, 0);
+
+            const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.9));
+            const base64 = await blobToBase64(blob);
+            const base64Data = base64.split(',')[1];
+            
+            screenEls.previewImg.src = base64;
+            screenEls.preview.classList.add('visible');
+
+            const userPrompt = screenEls.instructions.value.trim() || 'Describe what you see on this screen in detail';
+
+            const res = await fetch('https://text.pollinations.ai/openai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'openai',
+                    messages: [{
+                        role: 'user',
+                        content: [
+                            { type: 'text', text: userPrompt },
+                            {
+                                type: 'image_url',
+                                image_url: {
+                                    url: `data:image/jpeg;base64,${base64Data}`
+                                }
+                            }
+                        ]
+                    }]
+                })
+            });
+
+            if (!res.ok) {
+                throw new Error(`API error (${res.status}): ${await res.text()}`);
+            }
+
+            const data = await res.json();
+            
+            if (data.choices?.[0]?.message?.content) {
+                screenEls.responseContent.textContent = data.choices[0].message.content;
+            } else {
+                screenEls.responseContent.textContent = 'Unexpected response: ' + JSON.stringify(data, null, 2);
+            }
+            
+            screenEls.responseContainer.classList.add('visible');
+
+        } catch (err) {
+            screenEls.responseContent.textContent = 'Error: ' + err.message;
+            screenEls.responseContainer.classList.add('visible');
+            screenEls.status.textContent = 'Analysis error';
+            screenEls.status.className = 'screen-status error';
+        } finally {
+            screenEls.loading.classList.remove('visible');
+            screenEls.runBtn.disabled = false;
+        }
+    }
+
+    function blobToBase64(blob) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    }
+</script>
+```
+
+</body>
+</html>
