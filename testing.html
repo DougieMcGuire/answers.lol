@@ -60,6 +60,9 @@
         .sidebar a[data-tab="vision"]:before {
             content: '🖥️';
         }
+        .sidebar a[data-tab="image"]:before {
+            content: '🎨';
+        }
         .sidebar a.active {
             background: linear-gradient(135deg, #e8f0fe 0%, #d2e3fc 100%);
             color: #1a73e8;
@@ -437,6 +440,79 @@
             border: 2px solid #e8eaed;
         }
 
+        /* Image Generator Styles */
+        .image-generator {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .image-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .image-controls input {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 24px;
+            border: 2px solid #e8eaed;
+            outline: none;
+            font-size: 14px;
+            color: #202124;
+            transition: all 0.2s;
+            background: #f8f9fa;
+        }
+        .image-controls input:focus {
+            border-color: #1a73e8;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.1);
+        }
+        .image-controls button {
+            padding: 14px 28px;
+            border: none;
+            background: #1a73e8;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+        }
+        .image-controls button:hover:not(:disabled) {
+            background: #1765cc;
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
+        }
+        .image-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .image-display {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #dadce0;
+        }
+        .image-display img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        .image-placeholder {
+            color: #5f6368;
+            font-size: 16px;
+        }
+        .image-loading {
+            display: none;
+        }
+        .image-loading.visible {
+            display: block;
+        }
+
         /* Info Badge */
         .info-badge {
             display: inline-block;
@@ -479,7 +555,7 @@
         <h2>Classes</h2>
         <a href="#" data-tab="chat" class="active">Math 101</a>
         <a href="#" data-tab="vision">History of Art</a>
-        <a href="#" data-tab="disabled">Computer Science</a>
+        <a href="#" data-tab="image">Computer Science</a>
         <a href="#" data-tab="disabled">English Literature</a>
         <a href="#" data-tab="disabled">Physics Lab</a>
         <hr>
@@ -553,6 +629,34 @@
                     <div id="vision-preview" class="vision-preview">
                         <div class="vision-preview-header">Screenshot</div>
                         <img id="vision-preview-img" alt="Screen capture">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Generator Tab -->
+        <div id="image-tab" class="tab-content">
+            <div class="banner" style="background-image: url('https://www.gstatic.com/classroom/themes/img_code.jpg');">
+                <h1>Computer Science</h1>
+            </div>
+
+            <div class="image-generator">
+                <div class="card">
+                    <h3>Visual Design Tool</h3>
+                    <p>Generate images for your projects and presentations. Describe what you need and it will be created.</p>
+                    
+                    <div class="image-controls">
+                        <input type="text" id="image-input" placeholder="Describe the image you want to create...">
+                        <button id="image-generate-btn">Generate</button>
+                    </div>
+
+                    <div id="image-loading" class="image-loading">
+                        <div class="vision-spinner"></div>
+                        <p style="color: #5f6368; margin-top: 12px;">Generating image...</p>
+                    </div>
+
+                    <div id="image-display" class="image-display">
+                        <div class="image-placeholder">Enter a description above to generate an image</div>
                     </div>
                 </div>
             </div>
@@ -809,6 +913,46 @@
                 reader.readAsDataURL(blob);
             });
         }
+
+        // Image Generator
+        const imageInput = document.getElementById('image-input');
+        const imageGenerateBtn = document.getElementById('image-generate-btn');
+        const imageDisplay = document.getElementById('image-display');
+        const imageLoading = document.getElementById('image-loading');
+
+        function generateImage() {
+            const prompt = imageInput.value.trim();
+            if (!prompt) return;
+
+            imageGenerateBtn.disabled = true;
+            imageLoading.classList.add('visible');
+            imageDisplay.innerHTML = '<div class="image-placeholder">Loading...</div>';
+
+            // Pollinations.ai image URL format
+            const encodedPrompt = encodeURIComponent(prompt);
+            const seed = Math.floor(Math.random() * 1000000);
+            const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
+
+            // Create image element
+            const img = document.createElement('img');
+            img.onload = () => {
+                imageDisplay.innerHTML = '';
+                imageDisplay.appendChild(img);
+                imageLoading.classList.remove('visible');
+                imageGenerateBtn.disabled = false;
+            };
+            img.onerror = () => {
+                imageDisplay.innerHTML = '<div class="image-placeholder">Failed to generate image. Please try again.</div>';
+                imageLoading.classList.remove('visible');
+                imageGenerateBtn.disabled = false;
+            };
+            img.src = imageUrl;
+        }
+
+        imageGenerateBtn.addEventListener('click', generateImage);
+        imageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') generateImage();
+        });
     </script>
 </body>
 </html>
