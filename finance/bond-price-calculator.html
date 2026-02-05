@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-7417896211953533">
+    <title>Bond Price Calculator | Answers.lol</title>
+    <meta name="description" content="Calculate bond price from yield.">
+    <meta name="keywords" content="bond price calculator, free calculator, online tool, finance calculator">
+    <meta name="author" content="Answers.lol">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Bond Price Calculator | Answers.lol">
+    <meta property="og:description" content="Calculate bond price from yield.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://answers.lol/finance/bond-price-calculator">
+    <meta property="og:site_name" content="Answers.lol">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Bond Price Calculator | Answers.lol">
+    <meta name="twitter:description" content="Calculate bond price from yield.">
+    <link rel="canonical" href="https://answers.lol/finance/bond-price-calculator">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7417896211953533" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Bond Price Calculator",
+        "description": "Calculate bond price from yield.",
+        "url": "https://answers.lol/finance/bond-price-calculator",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "Answers.lol",
+            "url": "https://answers.lol"
+        }
+    }
+    </script>
+    <style>
+        .calculator-container { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .input-field { @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent; }
+        .btn-primary { @apply bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200; }
+        .result-box { @apply bg-gray-50 border border-gray-200 rounded-lg p-4 mt-4; }
+        .ad-container { @apply my-6 text-center; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/" class="flex items-center">
+                    <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Answers.lol</span>
+                </a>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/math/" class="text-gray-600 hover:text-indigo-600 font-medium">Math</a>
+                    <a href="/finance/" class="text-gray-600 hover:text-indigo-600 font-medium">Finance</a>
+                    <a href="/converters/" class="text-gray-600 hover:text-indigo-600 font-medium">Converters</a>
+                    <a href="/health/" class="text-gray-600 hover:text-indigo-600 font-medium">Health</a>
+                    <a href="/date/" class="text-gray-600 hover:text-indigo-600 font-medium">Date</a>
+                    <a href="/other/" class="text-gray-600 hover:text-indigo-600 font-medium">Other</a>
+                </nav>
+                <button id="mobile-menu-btn" class="md:hidden p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-3 space-y-2">
+                <a href="/math/" class="block py-2 text-gray-600 hover:text-indigo-600">Math</a>
+                <a href="/finance/" class="block py-2 text-gray-600 hover:text-indigo-600">Finance</a>
+                <a href="/converters/" class="block py-2 text-gray-600 hover:text-indigo-600">Converters</a>
+                <a href="/health/" class="block py-2 text-gray-600 hover:text-indigo-600">Health</a>
+                <a href="/date/" class="block py-2 text-gray-600 hover:text-indigo-600">Date</a>
+                <a href="/other/" class="block py-2 text-gray-600 hover:text-indigo-600">Other</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ad Space Top -->
+    <div class="ad-container max-w-4xl mx-auto px-4 mt-6">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7417896211953533"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Breadcrumbs -->
+        <nav class="text-sm text-gray-500 mb-6">
+            <a href="/" class="hover:text-indigo-600">Home</a>
+            <span class="mx-2">/</span>
+            <a href="/finance/" class="hover:text-indigo-600">Finance & Economics</a>
+            <span class="mx-2">/</span>
+            <span class="text-gray-700">Bond Price Calculator</span>
+        </nav>
+
+        <!-- Calculator Section -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="calculator-container p-8 text-white">
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">Bond Price Calculator</h1>
+                <p class="text-indigo-100 text-lg">Calculate bond price from yield.</p>
+            </div>
+
+            <div class="p-6 md:p-8">
+                
+        <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">First Number</label>
+                    <input type="number" id="num1" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Enter first number">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Second Number</label>
+                    <input type="number" id="num2" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Enter second number">
+                </div>
+            </div>
+            <button onclick="calculate()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200">Calculate</button>
+            <div id="result" class="hidden bg-gray-50 border border-gray-200 rounded-lg p-4 mt-4">
+                <p class="text-sm text-gray-600">Result:</p>
+                <p id="resultValue" class="text-3xl font-bold text-indigo-600"></p>
+            </div>
+        </div>
+            </div>
+        </div>
+
+        <!-- Mid-Content Ad -->
+        <div class="ad-container my-8">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7417896211953533"
+                 data-ad-slot="2345678901"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="bg-white rounded-xl shadow-md p-6 mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Related Tools</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <a href="/finance/loan-calculator" class="block p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition">Loan Calculator</a>
+<a href="/finance/mortgage-calculator" class="block p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition">Mortgage Calculator</a>
+<a href="/finance/simple-loan-calculator" class="block p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition">Simple Loan Calculator</a>
+<a href="/finance/auto-loan-calculator" class="block p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition">Auto Loan Calculator</a>
+<a href="/finance/personal-loan-calculator" class="block p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition">Personal Loan Calculator</a>
+<a href="/finance/home-equity-loan-calculator" class="block p-3 bg-gray-50 rounded-lg hover:bg-indigo-50 transition">Home Equity Loan Calculator</a>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="bg-white rounded-xl shadow-md p-6 mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">About Bond Price Calculator</h2>
+            <div class="prose text-gray-600 max-w-none">
+                <p class="mb-4">The <strong>Bond Price Calculator</strong> is a free online tool designed to help you calculate bond price from yield.. This calculator is part of our comprehensive suite of free online tools at Answers.lol.</p>
+    <p class="mb-4">Whether you're a student, professional, or just need a quick calculation, our Bond Price Calculator provides fast and accurate results. Simply enter your values and get instant calculations.</p>
+    <p>Our tools are designed with simplicity in mind, ensuring that anyone can use them without needing advanced technical knowledge. Try our other calculators for more helpful tools!</p>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="bg-white rounded-xl shadow-md p-6 mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                
+    <div class="border-b pb-4">
+        <h3 class="font-semibold text-gray-800">How do I use the Bond Price Calculator?</h3>
+        <p class="text-gray-600 mt-2">Simply enter your values in the input fields above and click the calculate button to get instant results.</p>
+    </div>
+    <div class="border-b pb-4">
+        <h3 class="font-semibold text-gray-800">Is this calculator free to use?</h3>
+        <p class="text-gray-600 mt-2">Yes, all calculators on Answers.lol are completely free to use.</p>
+    </div>
+    <div class="border-b pb-4">
+        <h3 class="font-semibold text-gray-800">Are the calculations accurate?</h3>
+        <p class="text-gray-600 mt-2">Our calculators use standard mathematical formulas and are designed to provide accurate results. However, always verify important calculations independently.</p>
+    </div>
+    <div>
+        <h3 class="font-semibold text-gray-800">Can I use this on mobile?</h3>
+        <p class="text-gray-600 mt-2">Yes, all our calculators are fully responsive and work great on mobile devices, tablets, and desktops.</p>
+    </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Ad -->
+    <div class="ad-container max-w-4xl mx-auto px-4 mb-8">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7417896211953533"
+             data-ad-slot="3456789012"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Math</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/math/percentage-calculator" class="hover:text-white">Percentage</a></li>
+                        <li><a href="/math/fraction-calculator" class="hover:text-white">Fractions</a></li>
+                        <li><a href="/math/scientific-calculator" class="hover:text-white">Scientific</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Finance</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/finance/loan-calculator" class="hover:text-white">Loan</a></li>
+                        <li><a href="/finance/mortgage-calculator" class="hover:text-white">Mortgage</a></li>
+                        <li><a href="/finance/investment-calculator" class="hover:text-white">Investment</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Converters</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/converters/length-converter" class="hover:text-white">Length</a></li>
+                        <li><a href="/converters/weight-converter" class="hover:text-white">Weight</a></li>
+                        <li><a href="/converters/temperature-converter" class="hover:text-white">Temperature</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/about" class="hover:text-white">About</a></li>
+                        <li><a href="/privacy" class="hover:text-white">Privacy</a></li>
+                        <li><a href="/terms" class="hover:text-white">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Answers.lol - Free Online Calculators & Tools</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            if (isNaN(num1) || isNaN(num2)) {
+                alert('Please enter valid numbers');
+                return;
+            }
+            let result;
+            if (window.location.pathname.includes('addition')) result = num1 + num2;
+            else if (window.location.pathname.includes('subtraction')) result = num1 - num2;
+            else if (window.location.pathname.includes('multiplication')) result = num1 * num2;
+            else if (window.location.pathname.includes('division')) result = num2 !== 0 ? num1 / num2 : 'Cannot divide by zero';
+            else result = num1 + num2;
+            document.getElementById('resultValue').textContent = result;
+            document.getElementById('result').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
